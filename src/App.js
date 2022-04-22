@@ -1,24 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+// //components import ka kaam hai ye
+// import Messenger from "./componenets/Messenger";
+// import AccountProvider from "./context/AccountProvider";
+// import UserProvider from "./context/UserProvider";
+// import TemplateProvider from "./theme/TemplateProvider";
+
+// function App() {
+//   return (
+//       <TemplateProvider>
+//         <UserProvider>
+//         <AccountProvider>
+//         <Messenger />
+//         </AccountProvider>
+//         </UserProvider>
+//       </TemplateProvider>
+
+//   );
+// }
+
+// export default App;
+
+
+//edited 1
+
+
+import { lazy, Suspense } from 'react';
+
+//components
+import UserProvider from './context/UserProvider';
+import AccountProvider from './context/AccountProvider';
+
+import TemplateProvider from './templates/TemplateProvider';
+import Loader from './components/loader/Loader';
+
+const Messenger = lazy(() => import('./components/Messenger'));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TemplateProvider>
+      <UserProvider>
+        <AccountProvider>
+          <Suspense fallback={<Loader />}>
+            <Messenger/>
+          </Suspense>
+        </AccountProvider>
+      </UserProvider>
+    </TemplateProvider>
   );
 }
 
